@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1595F07F2C30A2E30046CEBC /* WorldleSwiftUI in Resources */ = {isa = PBXBuildFile; fileRef = 1595F07D2C30A2E30046CEBC /* WorldleSwiftUI */; };
+		1595F0802C30A2E30046CEBC /* WorldleCore in Resources */ = {isa = PBXBuildFile; fileRef = 1595F07E2C30A2E30046CEBC /* WorldleCore */; };
+		1595F0832C30A2FF0046CEBC /* WorldleSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1595F0822C30A2FF0046CEBC /* WorldleSwiftUI */; };
 		583F0B2027CD7EF400939151 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 583F0B1F27CD7EF400939151 /* README.md */; };
-		5851FA4A27CC841E0057D820 /* CLLocation+Worldle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5851FA4927CC841E0057D820 /* CLLocation+Worldle.swift */; };
 		5860710627CC5D290031F835 /* WorldleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860710527CC5D290031F835 /* WorldleApp.swift */; };
-		5860710827CC5D290031F835 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860710727CC5D290031F835 /* HomeView.swift */; };
 		5860710A27CC5D2B0031F835 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5860710927CC5D2B0031F835 /* Assets.xcassets */; };
 		5860710D27CC5D2B0031F835 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5860710C27CC5D2B0031F835 /* Preview Assets.xcassets */; };
 		5860711727CC5D2C0031F835 /* WorldleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860711627CC5D2C0031F835 /* WorldleTests.swift */; };
 		5860712127CC5D2C0031F835 /* WorldleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860712027CC5D2C0031F835 /* WorldleUITests.swift */; };
 		5860712327CC5D2C0031F835 /* WorldleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860712227CC5D2C0031F835 /* WorldleUITestsLaunchTests.swift */; };
-		5860713227CC5E980031F835 /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 5860713127CC5E980031F835 /* countries.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,11 +37,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1595F07D2C30A2E30046CEBC /* WorldleSwiftUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WorldleSwiftUI; sourceTree = "<group>"; };
+		1595F07E2C30A2E30046CEBC /* WorldleCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WorldleCore; sourceTree = "<group>"; };
+		1595F0842C30A4B90046CEBC /* WorldleAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WorldleAPI; sourceTree = "<group>"; };
 		583F0B1F27CD7EF400939151 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		5851FA4927CC841E0057D820 /* CLLocation+Worldle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Worldle.swift"; sourceTree = "<group>"; };
 		5860710227CC5D290031F835 /* Worldle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Worldle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5860710527CC5D290031F835 /* WorldleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldleApp.swift; sourceTree = "<group>"; };
-		5860710727CC5D290031F835 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5860710927CC5D2B0031F835 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5860710C27CC5D2B0031F835 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5860711227CC5D2C0031F835 /* WorldleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,7 +50,6 @@
 		5860711C27CC5D2C0031F835 /* WorldleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5860712027CC5D2C0031F835 /* WorldleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldleUITests.swift; sourceTree = "<group>"; };
 		5860712227CC5D2C0031F835 /* WorldleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldleUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		5860713127CC5E980031F835 /* countries.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = countries.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1595F0832C30A2FF0046CEBC /* WorldleSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +78,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1595F07C2C30A2E30046CEBC /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				1595F07D2C30A2E30046CEBC /* WorldleSwiftUI */,
+				1595F0842C30A4B90046CEBC /* WorldleAPI */,
+				1595F07E2C30A2E30046CEBC /* WorldleCore */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		1595F0812C30A2FF0046CEBC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		586070F927CC5D280031F835 = {
 			isa = PBXGroup;
 			children = (
@@ -84,7 +102,9 @@
 				5860710427CC5D290031F835 /* Worldle */,
 				5860711527CC5D2C0031F835 /* WorldleTests */,
 				5860711F27CC5D2C0031F835 /* WorldleUITests */,
+				1595F07C2C30A2E30046CEBC /* Modules */,
 				5860710327CC5D290031F835 /* Products */,
+				1595F0812C30A2FF0046CEBC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,10 +121,7 @@
 		5860710427CC5D290031F835 /* Worldle */ = {
 			isa = PBXGroup;
 			children = (
-				5851FA4927CC841E0057D820 /* CLLocation+Worldle.swift */,
-				5860713127CC5E980031F835 /* countries.json */,
 				5860710527CC5D290031F835 /* WorldleApp.swift */,
-				5860710727CC5D290031F835 /* HomeView.swift */,
 				5860710927CC5D2B0031F835 /* Assets.xcassets */,
 				5860710B27CC5D2B0031F835 /* Preview Content */,
 			);
@@ -152,6 +169,9 @@
 			dependencies = (
 			);
 			name = Worldle;
+			packageProductDependencies = (
+				1595F0822C30A2FF0046CEBC /* WorldleSwiftUI */,
+			);
 			productName = Worldle;
 			productReference = 5860710227CC5D290031F835 /* Worldle.app */;
 			productType = "com.apple.product-type.application";
@@ -240,10 +260,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5860713227CC5E980031F835 /* countries.json in Resources */,
 				5860710D27CC5D2B0031F835 /* Preview Assets.xcassets in Resources */,
 				583F0B2027CD7EF400939151 /* README.md in Resources */,
+				1595F0802C30A2E30046CEBC /* WorldleCore in Resources */,
 				5860710A27CC5D2B0031F835 /* Assets.xcassets in Resources */,
+				1595F07F2C30A2E30046CEBC /* WorldleSwiftUI in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,8 +289,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5860710827CC5D290031F835 /* HomeView.swift in Sources */,
-				5851FA4A27CC841E0057D820 /* CLLocation+Worldle.swift in Sources */,
 				5860710627CC5D290031F835 /* WorldleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -599,6 +618,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1595F0822C30A2FF0046CEBC /* WorldleSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WorldleSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 586070FA27CC5D280031F835 /* Project object */;
 }

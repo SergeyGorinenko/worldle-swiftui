@@ -4,7 +4,7 @@
 
 import CoreLocation
 
-extension CLLocation {
+public extension CLLocation {
     func getRadiansFrom(degrees: Double ) -> Double {
         return degrees * .pi / 180
     }
