@@ -11,10 +11,28 @@ public struct WorldleGameView: View {
 
     // MARK: - State properties
     
+    @EnvironmentObject var appVM: WorldleAppViewModel
+    
     // MARK: - Public properties
 
     public var body: some View {
-        Text("Hello, World!")
+        ZStack {
+            if appVM.isLoading {
+                ProgressView()
+            } else {
+                ScrollView {
+                    LazyVStack(content: {
+                        ForEach(appVM.countries) { country in
+                            Text("\(country.name)")
+                        }
+                    })
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .task {
+            await appVM.loadCountries()
+        }
     }
     
     public init() {
@@ -30,4 +48,5 @@ public struct WorldleGameView: View {
 
 #Preview {
     WorldleGameView()
+        .environmentObject(DeveloperPreview.shared.appViewModel)
 }

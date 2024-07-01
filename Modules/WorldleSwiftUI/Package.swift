@@ -27,6 +27,9 @@ let package = Package(
             dependencies: [
                 "WorldleAPI",
                 "WorldleCore",
+            ],
+            resources: [
+                .process("Resources/countries.json"),
             ]
         ),
         .testTarget(
