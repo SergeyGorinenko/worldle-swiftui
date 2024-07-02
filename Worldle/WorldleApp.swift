@@ -10,8 +10,8 @@ struct WorldleApp: App {
 
     var body: some Scene {
         WindowGroup {
-            WorldleGameView()
-                .environmentObject(DeveloperPreview.shared.appViewModel)
+            HomeView()
+                .environmentObject(DeveloperPreview.shared.appVM)
         }
     }
     

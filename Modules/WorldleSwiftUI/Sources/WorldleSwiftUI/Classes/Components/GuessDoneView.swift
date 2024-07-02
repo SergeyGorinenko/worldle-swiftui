@@ -21,13 +21,13 @@ struct GuessDoneView: View {
     
     var body: some View {
         HStack(spacing: 8) {
-            Text(guess.countryName.uppercased())
+            Text(guess.country!.name.uppercased())
                 .frame(maxWidth: .infinity)
                 .minimumScaleFactor(0.5)
-                .guessDoneFieldStyle()
+                .guessFieldStyle()
 
             Text(format(distance: guess.distance))
-                .guessDoneFieldStyle()
+                .guessFieldStyle()
 
             Image(systemName: guess.direction.icon)
                 .background(
@@ -36,10 +36,10 @@ struct GuessDoneView: View {
                         .frame(width: 24, height: 24)
                 )
                 .padding(.horizontal, 8)
-                .guessDoneFieldStyle()
+                .guessFieldStyle()
 
             Text(String(format: "%0.0f%%", guess.distancePercentage))
-                .guessDoneFieldStyle()
+                .guessFieldStyle()
         }
         .frame(maxWidth: .infinity)
     }

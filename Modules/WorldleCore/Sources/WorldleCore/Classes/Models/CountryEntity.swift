@@ -8,7 +8,7 @@
 import CoreLocation
 import Foundation
 
-public struct CountryEntity: Identifiable {
+public struct CountryEntity: Identifiable, Hashable {
     public let id: String
     public let name: String
     public let location: CLLocation

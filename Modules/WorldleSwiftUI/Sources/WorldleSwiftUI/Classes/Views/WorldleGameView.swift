@@ -6,37 +6,40 @@
 //
 
 import SwiftUI
+import WorldleCore
 
 public struct WorldleGameView: View {
 
     // MARK: - State properties
     
-    @EnvironmentObject var appVM: WorldleAppViewModel
-    @StateObject var gameVM = WorldleGameViewModel()
-    
+    @StateObject var gameVM: WorldleGameViewModel
+    @Binding var showGame: Bool
+    @State var showSearch: Bool = false
+
     // MARK: - Public properties
 
     public var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
+        ScrollView {
+            VStack(spacing: 8) {
                 headerView
-
-                ScrollView {
-                    countryShapeView
-                    guessesView
-                }
+                countryShapeView
+                guessInputView
+                guessesView
             }
         }
         .frame(maxWidth: .infinity)
         .background(Color("BackgroundColor", bundle: Bundle.module))
-        .task {
-            await appVM.loadCountries()
-        }
+        .fullScreenCover(isPresented: $showSearch, content: {
+            CountrySearchView(showSearch: $showSearch)
+                .environmentObject(gameVM)
+        })
     }
-    
-    public init() {
+
+    init(countries: [CountryEntity], countryToGuess: CountryEntity, showGame: Binding<Bool>) {
+        _gameVM = StateObject(wrappedValue: WorldleGameViewModel(countries: countries, countryToGuess: countryToGuess))
+        _showGame = showGame
     }
-    
+
     // MARK: - Private properties
 
     private var headerView: some View {
@@ -58,10 +61,7 @@ public struct WorldleGameView: View {
                 .fontWeight(.bold)
             }
 
-            Rectangle()
-                .fill(Color("TextColor", bundle: Bundle.module))
-                .frame(height: 2)
-                .padding(.horizontal)
+            DividerView()
         }
     }
     
@@ -74,6 +74,17 @@ public struct WorldleGameView: View {
             .padding(.horizontal, 50)
     }
 
+    private var guessInputView: some View {
+        GuessInputView(
+            text: (gameVM.selectedCountry == nil) ? "" : gameVM.selectedCountry!.name.uppercased(),
+            showSearch: $showSearch,
+            selectAction: {
+                gameVM.confirmSelectedCountry()
+            }
+        )
+        .padding(.horizontal)
+    }
+    
     private var guessesView: some View {
         VStack(spacing: 8) {
             ForEach(Array(gameVM.guesses.enumerated()), id: \.offset) { (index, guess) in
@@ -96,6 +107,8 @@ public struct WorldleGameView: View {
 }
 
 #Preview {
-    WorldleGameView()
-        .environmentObject(DeveloperPreview.shared.appViewModel)
+    NavigationStack {
+        WorldleGameView(countries: DeveloperPreview.shared.countries, countryToGuess: DeveloperPreview.shared.countries.first!, showGame: .constant(true))
+            .environmentObject(DeveloperPreview.shared.appVM)
+    }
 }
