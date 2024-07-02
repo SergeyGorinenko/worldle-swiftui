@@ -24,7 +24,7 @@ public struct WorldleGameView: View {
         ScrollView {
             VStack(spacing: 0) {
                 headerView
-                countryShapeView
+                countryShapeView.padding(.vertical, 16)
                 
                 if gameVM.state != .playing {
                     answerView.padding(.bottom, 24)
@@ -103,12 +103,11 @@ public struct WorldleGameView: View {
     }
     
     private var countryShapeView: some View {
-        Image("US", bundle: Bundle.module)
-            .resizable()
-            .colorInvert()
-            .foregroundStyle(.white)
-            .aspectRatio(contentMode: .fit)
-            .padding(.horizontal, 50)
+        HStack {
+            if let url = gameVM.countryToGuess.imageURL {
+                SVGImage(url: url)
+            }
+        }
     }
 
     private var answerView: some View {

@@ -19,8 +19,12 @@ public struct HomeView: View {
 
     public var body: some View {
         ZStack {
-            ProgressView()
-                .colorInvert()
+            VStack {
+                countryShapeView
+
+                ProgressView()
+                    .colorInvert()
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("BackgroundColor", bundle: Bundle.module))
@@ -56,6 +60,16 @@ public struct HomeView: View {
 
     // MARK: - Private methods
 
+    private var countryShapeView: some View {
+        Image("US", bundle: Bundle.module)
+            .resizable()
+            .colorInvert()
+            .foregroundStyle(.white)
+            .aspectRatio(contentMode: .fit)
+            .padding(.horizontal, 50)
+    }
+
+    
     private func getAlert(error: Error?) -> Alert {
         Alert(
             title: Text("Warning"),

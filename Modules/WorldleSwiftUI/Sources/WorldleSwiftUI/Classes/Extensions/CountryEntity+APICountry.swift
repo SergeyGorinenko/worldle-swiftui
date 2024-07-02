@@ -19,4 +19,8 @@ extension CountryEntity {
         )
     }
 
+    var imageURL: URL? {
+        URL(string: "https://raw.githubusercontent.com/gist/smoroden/4599bfcde936165187d7476cfc148101/raw/366b16d7d82a7d6ed9500cc3cddd6c8a57bb1076/\(id.lowercased()).svg")
+    }
+    
 }
