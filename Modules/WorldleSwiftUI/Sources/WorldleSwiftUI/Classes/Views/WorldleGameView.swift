@@ -15,15 +15,22 @@ public struct WorldleGameView: View {
     @StateObject var gameVM: WorldleGameViewModel
     @Binding var showGame: Bool
     @State var showSearch: Bool = false
+    @State var showWon: Bool = false
+    @State var showLost: Bool = false
 
     // MARK: - Public properties
 
     public var body: some View {
         ScrollView {
-            VStack(spacing: 8) {
+            VStack(spacing: 0) {
                 headerView
                 countryShapeView
-                guessInputView
+                
+                if gameVM.state != .playing {
+                    answerView.padding(.bottom, 24)
+                }
+                
+                guessInputView.padding(.bottom, 8)
                 guessesView
             }
         }
@@ -33,6 +40,19 @@ public struct WorldleGameView: View {
             CountrySearchView(showSearch: $showSearch)
                 .environmentObject(gameVM)
         })
+        .onChange(of: gameVM.state, { oldValue, newValue in
+            if newValue == .won {
+                showWon.toggle()
+            } else if newValue == .lost {
+                showLost.toggle()
+            }
+        })
+        .alert(isPresented: $showWon) {
+            getAlert(message: "Congratulations!\nYOU WON!!!")
+        }
+        .alert(isPresented: $showLost) {
+            getAlert(message: "YOU LOST!!!")
+        }
     }
 
     init(countries: [CountryEntity], countryToGuess: CountryEntity, showGame: Binding<Bool>) {
@@ -44,21 +64,38 @@ public struct WorldleGameView: View {
 
     private var headerView: some View {
         VStack(spacing: 8) {
-            HStack {
-                Image("WorldleIcon", bundle: Bundle.module)
-                    .resizable()
-                    .frame(width: 26, height: 26)
-                
-                HStack(spacing: 0) {
-                    Text("WOR")
-                        .foregroundStyle(Color("TextColor", bundle: Bundle.module))
-                    Text("L")
-                        .foregroundStyle(Color("TextSecondColor", bundle: Bundle.module))
-                    Text("DLE")
-                        .foregroundStyle(Color("TextColor", bundle: Bundle.module))
+            ZStack {
+                HStack {
+                    Image("WorldleIcon", bundle: Bundle.module)
+                        .resizable()
+                        .frame(width: 26, height: 26)
+                    
+                    HStack(spacing: 0) {
+                        Text("WOR")
+                            .foregroundStyle(Color("TextColor", bundle: Bundle.module))
+                        Text("L")
+                            .foregroundStyle(Color("TextSecondColor", bundle: Bundle.module))
+                        Text("DLE")
+                            .foregroundStyle(Color("TextColor", bundle: Bundle.module))
+                    }
+                    .font(.system(size: 36, weight: .bold, design: .default))
+                    .fontWeight(.bold)
                 }
-                .font(.system(size: 36, weight: .bold, design: .default))
-                .fontWeight(.bold)
+
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        showGame.toggle()
+                    } label: {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                            .foregroundStyle(Color("TextColor", bundle: Bundle.module))
+                            .font(.headline)
+                            .fontWeight(.medium)
+                            .frame(width: 40, height: 40)
+                    }
+                    .padding(.horizontal, 8)
+                }
             }
 
             DividerView()
@@ -72,6 +109,21 @@ public struct WorldleGameView: View {
             .foregroundStyle(.white)
             .aspectRatio(contentMode: .fit)
             .padding(.horizontal, 50)
+    }
+
+    private var answerView: some View {
+        HStack {
+            Text("Country:")
+            Text(gameVM.countryToGuess.name.uppercased())
+                .fontWeight(.bold)
+        }
+        .foregroundStyle(Color("AnswerTextColor", bundle: Bundle.module))
+        .frame(height: 40)
+        .padding(.horizontal, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .foregroundStyle(Color("AnswerBGColor", bundle: Bundle.module))
+        )
     }
 
     private var guessInputView: some View {
@@ -103,6 +155,14 @@ public struct WorldleGameView: View {
     // MARK: - Public methods
     
     // MARK: - Private methods
+
+    private func getAlert(message: String) -> Alert {
+        Alert(
+            title: Text(message),
+            message: nil,
+            dismissButton: .default(Text("OK"))
+        )
+    }
 
 }
 

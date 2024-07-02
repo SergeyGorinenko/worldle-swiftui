@@ -13,7 +13,16 @@ import WorldleCore
 final class WorldleGameViewModel: ObservableObject {
 
     private enum Constants {
-        static let guessCount = 6
+        static let guessCount: Int = 6
+        
+        // Half the length of the equator (in meters)
+        static let halfLengthEquator: Double = 40075017 / 2
+    }
+    
+    enum GameState {
+        case playing
+        case won
+        case lost
     }
     
     // MARK: - State properties
@@ -26,6 +35,7 @@ final class WorldleGameViewModel: ObservableObject {
     @Published var totalGuesses: Int = Constants.guessCount
     @Published var searchText: String = ""
     @Published var selectedCountry: CountryEntity?
+    @Published var state: GameState = .playing
 
     // MARK: - Private properties
 
@@ -46,13 +56,22 @@ final class WorldleGameViewModel: ObservableObject {
         guard let selectedCountry = selectedCountry else { return }
         guard currGuessIndex < Constants.guessCount else { return }
 
-        let direction: GuessModel.Direction = .upLeft
-        let distance: Double = 0
-        let distancePercentage: Double = 0
+        let distance = selectedCountry.location.distance(from: countryToGuess.location)
+        let distancePercentage = 100 * (Constants.halfLengthEquator - distance) / Constants.halfLengthEquator
+
+        let bearing = selectedCountry.location.bearingDegreesTo(location: countryToGuess.location)
+        let direction = GuessModel.Direction.direction(with: bearing)
+
         guesses[currGuessIndex] = GuessModel(country: selectedCountry, direction: direction, distance: distance, distancePercentage: distancePercentage)
         
         self.selectedCountry = nil
         currGuessIndex += 1
+        
+        if selectedCountry.id == countryToGuess.id {
+            state = .won
+        } else if currGuessIndex == Constants.guessCount {
+            state = .lost
+        }
     }
     
     // MARK: - Private methods
@@ -73,16 +92,6 @@ final class WorldleGameViewModel: ObservableObject {
         $selectedCountry
             .sink { [weak self] (selectedCountry) in
                 self?.searchText = ""
-            }
-            .store(in: &cancellables)
-        
-        $currGuessIndex
-            .sink { [weak self] (currGuessIndex) in
-                guard let self = self else { return }
-
-                if self.currGuessIndex == Constants.guessCount {
-                    
-                }
             }
             .store(in: &cancellables)
     }

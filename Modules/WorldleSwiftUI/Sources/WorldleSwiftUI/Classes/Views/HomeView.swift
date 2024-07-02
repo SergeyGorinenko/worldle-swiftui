@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WorldleCore
 
 public struct HomeView: View {
 
@@ -33,11 +34,18 @@ public struct HomeView: View {
             showGame.toggle()
         }
         .fullScreenCover(isPresented: $showGame, content: {
-            WorldleGameView(countries: appVM.countries, countryToGuess: appVM.countries.first!, showGame: $showGame)
+            WorldleGameView(countries: appVM.countries, countryToGuess: appVM.countries.randomElement()!, showGame: $showGame)
                 .transition(.opacity)
         })
         .alert(isPresented: $showError) {
             getAlert(error: error)
+        }
+        .onChange(of: showGame) { oldValue, newValue in
+            if !newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                    showGame.toggle()
+                }
+            }
         }
     }
     

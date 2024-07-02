@@ -9,6 +9,10 @@ import WorldleCore
 
 struct GuessModel: Hashable {
 
+    private enum Constants {
+        static let sectionDegree = 22.5
+    }
+    
     enum Direction {
         case up, upRight, right, downRight, down, downLeft, left, upLeft
         
@@ -24,11 +28,31 @@ struct GuessModel: Hashable {
             case .upLeft: return "arrow.up.left"
             }
         }
+        
+        static func direction(with bearing: Double) -> Direction {
+            if Constants.sectionDegree <= bearing && bearing < 3 * Constants.sectionDegree {
+                return .upRight
+            } else if 3 * Constants.sectionDegree <= bearing && bearing < 5 * Constants.sectionDegree {
+                return .right
+            } else if 5 * Constants.sectionDegree <= bearing && bearing < 7 * Constants.sectionDegree {
+                return .downRight
+            } else if 7 * Constants.sectionDegree <= bearing && bearing < 9 * Constants.sectionDegree {
+                return .down
+            } else if 9 * Constants.sectionDegree <= bearing && bearing < 11 * Constants.sectionDegree {
+                return .downLeft
+            } else if 11 * Constants.sectionDegree <= bearing && bearing < 13 * Constants.sectionDegree {
+                return .left
+            } else if 13 * Constants.sectionDegree <= bearing && bearing < 15 * Constants.sectionDegree {
+                return .upLeft
+            } else {
+                return .up
+            }
+        }
     }
     
     let country: CountryEntity?
     let direction: Direction
-    let distance: Double
+    let distance: Double // meters
     let distancePercentage: Double
     let done: Bool
     

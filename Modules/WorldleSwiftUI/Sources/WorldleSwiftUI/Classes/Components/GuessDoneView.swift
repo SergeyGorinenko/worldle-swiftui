@@ -49,6 +49,8 @@ struct GuessDoneView: View {
     }
     
     private func format(distance: Double) -> String {
+        // Convert meters to kilometers
+        let distance = distance / 1000
         let formattedNumber = distanceFormatter.string(for: distance) ?? "\(distance)"
         return "\(formattedNumber)km"
     }
