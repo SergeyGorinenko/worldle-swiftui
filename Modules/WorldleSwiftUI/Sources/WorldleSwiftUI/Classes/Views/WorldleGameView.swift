@@ -15,8 +15,7 @@ public struct WorldleGameView: View {
     @StateObject var gameVM: WorldleGameViewModel
     @Binding var showGame: Bool
     @State var showSearch: Bool = false
-    @State var showWon: Bool = false
-    @State var showLost: Bool = false
+    @State var showGameOver: Bool = false
 
     // MARK: - Public properties
 
@@ -40,19 +39,14 @@ public struct WorldleGameView: View {
             CountrySearchView(showSearch: $showSearch)
                 .environmentObject(gameVM)
         })
+        .alert(isPresented: $showGameOver) {
+            getAlert()
+        }
         .onChange(of: gameVM.state, { oldValue, newValue in
-            if newValue == .won {
-                showWon.toggle()
-            } else if newValue == .lost {
-                showLost.toggle()
+            if newValue != .playing {
+                showGameOver.toggle()
             }
         })
-        .alert(isPresented: $showWon) {
-            getAlert(message: "Congratulations!\nYOU WON!!!")
-        }
-        .alert(isPresented: $showLost) {
-            getAlert(message: "YOU LOST!!!")
-        }
     }
 
     init(countries: [CountryEntity], countryToGuess: CountryEntity, showGame: Binding<Bool>) {
@@ -156,9 +150,9 @@ public struct WorldleGameView: View {
     
     // MARK: - Private methods
 
-    private func getAlert(message: String) -> Alert {
+    private func getAlert() -> Alert {
         Alert(
-            title: Text(message),
+            title: Text((gameVM.state == .won) ? "Congratulations!!!\nYOU WON!!!" : "YOU LOST!!!"),
             message: nil,
             dismissButton: .default(Text("OK"))
         )
