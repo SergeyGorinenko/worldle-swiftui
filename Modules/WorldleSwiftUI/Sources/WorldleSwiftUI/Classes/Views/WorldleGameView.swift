@@ -133,6 +133,7 @@ public struct WorldleGameView: View {
                 gameVM.confirmSelectedCountry()
             }
         )
+        .disabled(gameVM.state != .playing)
         .padding(.horizontal)
     }
     
