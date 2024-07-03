@@ -25,7 +25,7 @@ public final class WorldleAppViewModel: ObservableObject {
 
     // MARK: - Public methods
 
-    public init(baseURL: String) {
+    public init(baseURL: URL) {
         self.countriesManager = CountriesManager(baseURL: baseURL)
     }
 

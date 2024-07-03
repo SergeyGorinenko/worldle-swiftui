@@ -17,11 +17,11 @@ final class CountriesManager {
 
     // MARK: - Public properties
 
-    private let baseURL: String
+    private let baseURL: URL
 
     // MARK: - Public methods
 
-    public init(baseURL: String) {
+    public init(baseURL: URL) {
         self.baseURL = baseURL
     }
     

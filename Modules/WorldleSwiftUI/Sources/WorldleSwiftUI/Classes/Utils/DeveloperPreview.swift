@@ -16,7 +16,7 @@ public class DeveloperPreview {
     public static let shared = DeveloperPreview()
     private init() {}
     
-    public let appVM: WorldleAppViewModel = WorldleAppViewModel(baseURL: Bundle.module.url(forResource: "countries", withExtension: "json")!.deletingLastPathComponent().absoluteString)
+    public let appVM: WorldleAppViewModel = WorldleAppViewModel(baseURL: Bundle.module.url(forResource: "countries", withExtension: "json")!.deletingLastPathComponent())
 
     lazy var gameVM: WorldleGameViewModel = WorldleGameViewModel(countries: countries, countryToGuess: countries.first!)
     

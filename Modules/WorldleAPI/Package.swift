@@ -21,6 +21,11 @@ let package = Package(
             name: "WorldleAPI"),
         .testTarget(
             name: "WorldleAPITests",
-            dependencies: ["WorldleAPI"]),
+            dependencies: ["WorldleAPI"],
+            resources: [
+                .process("Resources/countries_empty_list.json"),
+                .process("Resources/countries.json"),
+            ]
+        ),
     ]
 )

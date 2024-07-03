@@ -11,8 +11,8 @@ import Foundation
 
 public class GetCountriesAPI {
 
-    public static func getCountries(baseURL: String) async throws -> [APICountry] {
-        let apiURL = URL(string: baseURL + "countries.json")!
+    public static func getCountries(baseURL: URL, api: String? = nil) async throws -> [APICountry] {
+        let apiURL = baseURL.appending(path: api ?? "countries.json")
 
         let (data, _) = try await URLSession.shared.data(from: apiURL)
         if let decodedResponse = try? JSONDecoder().decode([APICountry].self, from: data) {
