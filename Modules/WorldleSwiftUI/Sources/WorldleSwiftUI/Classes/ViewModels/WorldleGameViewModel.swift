@@ -35,6 +35,7 @@ final class WorldleGameViewModel: ObservableObject {
     @Published var totalGuesses: Int = Constants.guessCount
     @Published var searchText: String = ""
     @Published var selectedCountry: CountryEntity?
+    @Published var selectedCountryName: String = ""
     @Published var state: GameState = .playing
 
     // MARK: - Private properties
@@ -91,7 +92,9 @@ final class WorldleGameViewModel: ObservableObject {
 
         $selectedCountry
             .sink { [weak self] (selectedCountry) in
-                self?.searchText = ""
+                let countryName = (selectedCountry == nil) ? "" : selectedCountry!.name.uppercased()
+                self?.searchText = countryName
+                self?.selectedCountryName = countryName
             }
             .store(in: &cancellables)
     }

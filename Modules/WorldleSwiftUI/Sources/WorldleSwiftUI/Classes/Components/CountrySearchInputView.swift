@@ -1,5 +1,5 @@
 //
-//  GuessInputView.swift
+//  CountrySearchInputView.swift
 //
 //
 //  Created by Serhii Horinenko on 01.07.2024.
@@ -7,21 +7,29 @@
 
 import SwiftUI
 
-struct GuessInputView: View {
+struct CountrySearchInputView: View {
     
+    enum CountrySearchFields {
+        case country
+    }
+
     @Binding var searchText: String
     @Binding var showSearch: Bool
+    @FocusState var fieldInFocus: CountrySearchFields?
     var searchAnimation: Namespace.ID
-    let guessAction: (() -> Void)
+    let cancelAction: (() -> Void)
 
     var body: some View {
         HStack(spacing: 8) {
-            if !showSearch {
+            if showSearch {
                 textFieldView
-                guessButtonView
+                cancelButtonView
             }
         }
         .frame(maxWidth: .infinity)
+        .onAppear(perform: {
+            fieldInFocus = .country
+        })
     }
     
     private var textFieldView: some View {
@@ -34,29 +42,20 @@ struct GuessInputView: View {
                 .fontWeight(.medium)
                 .foregroundStyle(Color("GuessInputPlaceholderColor", bundle: Bundle.module))
         )
-        .disabled(true)
         .guessFieldStyle(bgColor: Color("GuessInputBGColor", bundle: Bundle.module))
+        .focused($fieldInFocus, equals: .country)
         .matchedGeometryEffect(id: "textField", in: searchAnimation)
-        .onTapGesture(perform: {
+    }
+
+    private var cancelButtonView: some View {
+        Button(action: {
             withAnimation {
                 showSearch.toggle()
             }
-        })
-    }
-
-    private var guessButtonView: some View {
-        Button(action: {
-            guessAction()
         }, label: {
-            HStack(spacing: 6) {
-                Image("WorldleIcon", bundle: Bundle.module)
-                    .resizable()
-                    .frame(width: 16, height: 16)
-                
-                Text("GUESS")
-            }
-            .padding(.horizontal, 8)
-            .guessFieldStyle(bgColor: Color("GuessButtonBGColor", bundle: Bundle.module))
+            Text("Cancel")
+                .padding(.horizontal, 8)
+                .guessFieldStyle(bgColor: Color("GuessButtonBGColor", bundle: Bundle.module))
         })
         .matchedGeometryEffect(id: "actionButton", in: searchAnimation)
     }
@@ -66,9 +65,9 @@ struct GuessInputView: View {
 #Preview {
     @Namespace var namespace
 
-    return GuessInputView(searchText: .constant("United States"), showSearch: .constant(false), searchAnimation: namespace) {
+    return CountrySearchInputView(searchText: .constant("United States"), showSearch: .constant(true), searchAnimation: namespace) {
         print("GuessInputView: Select")
     }
-    .padding()
+    .padding(.vertical)
     .background(Color.gray)
 }

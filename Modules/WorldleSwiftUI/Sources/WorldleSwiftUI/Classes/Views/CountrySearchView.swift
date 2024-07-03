@@ -16,16 +16,14 @@ struct CountrySearchView: View {
     @EnvironmentObject var gameVM: WorldleGameViewModel
     @Binding var showSearch: Bool
     @FocusState private var fieldInFocus: CountrySearchFields?
+    var searchAnimation: Namespace.ID
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 8) {
-                textFieldView
-                cancelButtonView
-            }
-            .padding()
+            countrySearchInputView
 
             DividerView()
+                .padding(.top)
 
             countryListView
         }
@@ -36,37 +34,25 @@ struct CountrySearchView: View {
         })
     }
 
-    private var textFieldView: some View {
-        TextField(
-            "Country, territory...",
-            text: $gameVM.searchText,
-            prompt:
-                Text("Country, territory...")
-                .font(.headline)
-                .fontWeight(.medium)
-                .foregroundStyle(Color("GuessInputPlaceholderColor", bundle: Bundle.module))
-        )
-        .guessFieldStyle(bgColor: Color("GuessInputBGColor", bundle: Bundle.module))
-        .focused($fieldInFocus, equals: .country)
-    }
-
-    private var cancelButtonView: some View {
-        Button(action: {
-            showSearch.toggle()
-        }, label: {
-            Text("Cancel")
-                .padding(.horizontal, 8)
-                .guessFieldStyle(bgColor: Color("GuessButtonBGColor", bundle: Bundle.module))
+    private var countrySearchInputView: some View {
+        CountrySearchInputView(searchText: $gameVM.searchText, showSearch: $showSearch, searchAnimation: searchAnimation, cancelAction: {
+            withAnimation {
+                showSearch.toggle()
+            }
         })
+        .padding(.horizontal)
+        .padding(.bottom, 8)
     }
-
+    
     private var countryListView: some View {
         ScrollView {
             VStack(spacing: 0) {
                 ForEach(gameVM.searchText.isEmpty ? gameVM.countries : gameVM.filteredCountries) { country in
                     CounrtySearchRowView(country: country) { country in
                         gameVM.selectedCountry = country
-                        showSearch.toggle()
+                        withAnimation {
+                            showSearch.toggle()
+                        }
                     }
 
                     DividerView()
@@ -80,6 +66,8 @@ struct CountrySearchView: View {
 
 
 #Preview {
-    CountrySearchView(showSearch: .constant(true))
+    @Namespace var namespace
+
+    return CountrySearchView(showSearch: .constant(true), searchAnimation: namespace)
         .environmentObject(DeveloperPreview.shared.gameVM)
 }

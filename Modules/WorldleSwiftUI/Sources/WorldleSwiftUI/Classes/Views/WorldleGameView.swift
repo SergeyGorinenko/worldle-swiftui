@@ -17,28 +17,35 @@ public struct WorldleGameView: View {
     @State var showSearch: Bool = false
     @State var showGameOver: Bool = false
 
+    var mapAnimation: Namespace.ID
+    @Namespace var searchAnimation
+
     // MARK: - Public properties
 
     public var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                headerView
-                countryShapeView.padding(.vertical, 16)
-                
-                if gameVM.state != .playing {
-                    answerView.padding(.bottom, 24)
+        ZStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    headerView
+                    countryShapeView.padding(.vertical, 16)
+
+                    if gameVM.state != .playing {
+                        answerView.padding(.bottom, 24)
+                    }
+                    
+                    guessInputView
+                    guessesView
                 }
-                
-                guessInputView.padding(.bottom, 8)
-                guessesView
+            }
+
+            if showSearch {
+                CountrySearchView(showSearch: $showSearch, searchAnimation: searchAnimation)
+                    .environmentObject(gameVM)
+                    .transition(.move(edge: .bottom))
             }
         }
         .frame(maxWidth: .infinity)
         .background(Color("BackgroundColor", bundle: Bundle.module))
-        .fullScreenCover(isPresented: $showSearch, content: {
-            CountrySearchView(showSearch: $showSearch)
-                .environmentObject(gameVM)
-        })
         .alert(isPresented: $showGameOver) {
             getAlert()
         }
@@ -49,9 +56,10 @@ public struct WorldleGameView: View {
         })
     }
 
-    init(countries: [CountryEntity], countryToGuess: CountryEntity, showGame: Binding<Bool>) {
+    init(countries: [CountryEntity], countryToGuess: CountryEntity, showGame: Binding<Bool>, mapAnimation: Namespace.ID) {
         _gameVM = StateObject(wrappedValue: WorldleGameViewModel(countries: countries, countryToGuess: countryToGuess))
         _showGame = showGame
+        self.mapAnimation = mapAnimation
     }
 
     // MARK: - Private properties
@@ -80,7 +88,9 @@ public struct WorldleGameView: View {
                     Spacer()
                     
                     Button {
-                        showGame.toggle()
+                        withAnimation {
+                            showGame.toggle()
+                        }
                     } label: {
                         Image(systemName: "arrow.triangle.2.circlepath")
                             .foregroundStyle(Color("TextColor", bundle: Bundle.module))
@@ -100,6 +110,7 @@ public struct WorldleGameView: View {
         HStack {
             if let url = gameVM.countryToGuess.imageURL {
                 SVGImage(url: url)
+                    .matchedGeometryEffect(id: "map", in: mapAnimation)
             }
         }
     }
@@ -121,14 +132,16 @@ public struct WorldleGameView: View {
 
     private var guessInputView: some View {
         GuessInputView(
-            text: (gameVM.selectedCountry == nil) ? "" : gameVM.selectedCountry!.name.uppercased(),
+            searchText: $gameVM.selectedCountryName,
             showSearch: $showSearch,
-            selectAction: {
+            searchAnimation: searchAnimation,
+            guessAction: {
                 gameVM.confirmSelectedCountry()
             }
         )
         .disabled(gameVM.state != .playing)
         .padding(.horizontal)
+        .padding(.bottom, 8)
     }
     
     private var guessesView: some View {
@@ -161,8 +174,10 @@ public struct WorldleGameView: View {
 }
 
 #Preview {
-    NavigationStack {
-        WorldleGameView(countries: DeveloperPreview.shared.countries, countryToGuess: DeveloperPreview.shared.countries.first!, showGame: .constant(true))
+    @Namespace var namespace
+    
+    return NavigationStack {
+        WorldleGameView(countries: DeveloperPreview.shared.countries, countryToGuess: DeveloperPreview.shared.countries.first!, showGame: .constant(true), mapAnimation: namespace)
             .environmentObject(DeveloperPreview.shared.appVM)
     }
 }
