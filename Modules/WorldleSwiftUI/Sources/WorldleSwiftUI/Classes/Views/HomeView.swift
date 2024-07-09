@@ -33,7 +33,10 @@ public struct HomeView: View {
             }
 
             if showGame {
-                WorldleGameView(countries: appVM.countries, countryToGuess: appVM.countries.randomElement()!, showGame: $showGame, mapAnimation: mapAnimation)
+                WorldleGameView(countries: appVM.countries, 
+                                countryToGuess: appVM.countries.randomElement()!,
+                                showGame: $showGame,
+                                mapAnimation: mapAnimation)
                     .transition(.opacity)
             }
         }
